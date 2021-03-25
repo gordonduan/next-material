@@ -56,13 +56,13 @@ const index = (props) => {
     <Drawer
       variant="permanent"
       className={clsx(classes.drawer, {
-        [classes.drawerOpen]: props.drawerOpen,
-        [classes.drawerClose]: !props.drawerOpen,
+        [classes.drawerOpen]: props.open,
+        [classes.drawerClose]: !props.open,
       })}
       classes={{
         paper: clsx({
-          [classes.drawerOpen]: props.drawerOpen,
-          [classes.drawerClose]: !props.drawerOpen,
+          [classes.drawerOpen]: props.open,
+          [classes.drawerClose]: !props.open,
         }),
       }}
     >

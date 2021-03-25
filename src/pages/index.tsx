@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import AppBar from '@material-ui/core/AppBar';
+// import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -18,6 +18,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import NavDrawer from '../components/NavDrawer'
+import AppBar from '../components/AppBar'
 
 const drawerWidth = 240;
 
@@ -100,32 +101,8 @@ export default function MiniDrawer() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-        style={{ color: "white",
-        backgroundColor: "rgb(64, 65, 66)" }}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Next Material UI
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <NavDrawer handleDrawerClose={() => setOpen(false)} drawerOpen={open}/>
+      <AppBar handleDrawerOpen={handleDrawerOpen} open={open}/>
+      <NavDrawer handleDrawerClose={handleDrawerClose} open={open}/>
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Typography paragraph>
