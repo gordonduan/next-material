@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from "react";
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import clsx from 'clsx';
@@ -18,6 +18,8 @@ import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Divider from '@material-ui/core/Divider';
+import Link from "next/link";
+import Menu from '../../config/menu'
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -63,27 +65,75 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const index = (props) => {
-    console.log(1111);
-    console.log(props.drawerOpen);
-    const theme = useTheme();
+  const theme = useTheme();
   const classes = useStyles();
-
-  const [expand, setExpand] = useState(false);
+  const [menuExpand, setMenuExpand] = useState(false);
 
   const handleClick = () => {
-    setExpand(!expand);
+    setMenuExpand(!menuExpand);
   };
 
-//   const handleDrawerOpen = () => {
-//     setOpen(true);
-//   };
+const MenuItem = ({ item }) => {
+  const Component = hasChildren(item) ? MultiLevel : SingleLevel;
+  return <Component item={item}/>;
+};
 
-//   const handleDrawerClose = () => {
-//     setOpen(false);
-//   };
+const SingleLevel = ({ item }) => {
+  return <ListItem button>
+          <ListItemIcon>{item.icon} </ListItemIcon>
+          <ListItemText primary={item.title} />
+        </ListItem>
+};
+
+const hasChildren = (item) => {
+  const { items: children } = item;
+
+  if (children === undefined) {
+    return false;
+  }
+
+  if (children.constructor !== Array) {
+    return false;
+  }
+
+  if (children.length === 0) {
+    return false;
+  }
+
+  return true;
+}
+
+const MultiLevel = ({ item }) => {
+  const { items: children } = item;
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen((prev) => !prev);
+  };
 
   return (
+    <React.Fragment>
+      <ListItem button onClick={handleClick}>
+        <ListItemIcon>{item.icon}</ListItemIcon>
+        <ListItemText primary={item.title} />
+        {open ? <ExpandLess /> : <ExpandMore />}
+      </ListItem>
+      <Collapse in={open} timeout="auto" unmountOnExit className={classes.nested}>
+        <List component="div" disablePadding>
+          {children.map((child, key) => (
+            <MenuItem key={key} item={child} />
+          ))}
+        </List>
+      </Collapse>
+    </React.Fragment>
+    );
+  };
 
+  const renderMenu = (menu) => {
+    return menu.map((item, key) => <MenuItem key={key} item={item}/>);
+  }
+
+  return (
     <Drawer
         variant="permanent"
         className={clsx(classes.drawer, {
@@ -104,27 +154,7 @@ const index = (props) => {
         </div>
         <Divider />
         <List>
-          <ListItem button key="Home">
-            <ListItemIcon> <HomeIcon /> </ListItemIcon>
-            <ListItemText primary="Home" />
-          </ListItem>
-          <ListItem button onClick={handleClick}>
-            <ListItemIcon> <AccountBoxIcon /> </ListItemIcon>
-            <ListItemText primary="Group" />
-            {expand ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={expand} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItem button className={classes.nested}>
-                <ListItemIcon> <GroupAddIcon /> </ListItemIcon>
-                <ListItemText primary="User" />
-              </ListItem>
-            </List>
-          </Collapse>
-          <ListItem button key="Setting">
-            <ListItemIcon> <SettingsIcon /> </ListItemIcon>
-            <ListItemText primary="Setting" />
-          </ListItem>
+          {renderMenu(Menu)}
         </List>
 
       </Drawer>

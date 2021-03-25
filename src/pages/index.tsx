@@ -17,7 +17,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import SideMenu from '../components/SideMenu'
+import NavDrawer from '../components/NavDrawer'
 
 const drawerWidth = 240;
 
@@ -125,7 +125,7 @@ export default function MiniDrawer() {
           </Typography>
         </Toolbar>
       </AppBar>
-      <SideMenu handleDrawerClose={() => setOpen(false)} drawerOpen={open}/>
+      <NavDrawer handleDrawerClose={() => setOpen(false)} drawerOpen={open}/>
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Typography paragraph>

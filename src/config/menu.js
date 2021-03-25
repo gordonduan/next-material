@@ -1,36 +1,35 @@
-import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
-import LocalLibraryOutlinedIcon from "@material-ui/icons/LocalLibraryOutlined";
-import TrendingUpOutlinedIcon from "@material-ui/icons/TrendingUpOutlined";
-import DescriptionOutlinedIcon from "@material-ui/icons/DescriptionOutlined";
 import SettingsIcon from '@material-ui/icons/Settings';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import HomeIcon from '@material-ui/icons/Home';
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
-import React from "react";
 
-export const menu = [
+const menuList = [
   {
-    icon: <HomeIcon />,
     title: "Home",
-    items: []
+    icon: <HomeIcon />,
+    key: "/home",
+    level: 0
   },
   {
+    title: "Group",
     icon: <GroupAddIcon />,
-    title: "Permission",
+    key: "/group",
+    level: 0,
     items: [
       {
-        icon: <AccountBoxIcon />,
         title: "User",
-        to: "/permission/user"
+        icon: <AccountBoxIcon />,
+        key: "/group/user",
+        level: 1
       },
     ]
   },
   {
+    title: "Options",
     icon: <SettingsIcon />,
-    title: "Options"
-  },
-  {
-    icon: <DescriptionOutlinedIcon />,
-    title: "Blog"
+    key: "/options",
+    level: 0
   }
 ];
+
+export default menuList;
