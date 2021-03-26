@@ -11,6 +11,11 @@ import MenuItem from './MenuItem'
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
@@ -72,7 +77,7 @@ const index = (props) => {
         </IconButton>
       </div>
       <Divider />
-      <List>
+      <List component="nav" aria-labelledby="nested-list-subheader" className={classes.root}>
         {renderMenu(Menu)}
       </List>
     </Drawer>
