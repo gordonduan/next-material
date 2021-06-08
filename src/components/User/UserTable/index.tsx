@@ -12,6 +12,10 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +47,7 @@ const headCells = [
   { id: 'age', numeric: true, disablePadding: false, label: 'Age' },
   { id: 'email', numeric: true, disablePadding: false, label: 'Email' },
   { id: 'createdDateTime', numeric: true, disablePadding: false, label: 'Created' },
+  { id: 'action', numeric: true, disablePadding: false, label: 'Action' }
 ];
 
 const index = ({ rows }) => {
@@ -100,6 +105,14 @@ const index = ({ rows }) => {
 
   const handleChangeDense = (event) => {
     setDense(event.target.checked);
+  };
+
+  const handleEdit = (id) => {
+    console.log("The Values that you wish to edit ", id);
+  };
+
+  const handleDelete = id => {
+    console.log("The Values that you wish to delete ", id);
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
@@ -182,7 +195,19 @@ const index = ({ rows }) => {
                       <TableCell align="right">{row.gender}</TableCell>
                       <TableCell align="right">{row.age}</TableCell>
                       <TableCell align="right">{row.email}</TableCell>
-                      <TableCell align="right">{row.createdDateTime}</TableCell>
+                      <TableCell align="right">{new Date(row.createdDateTime).toLocaleString()}</TableCell>
+                      <TableCell align="right">
+                        {<Tooltip title="Edit">
+                          <IconButton aria-label="edit" onClick={() => handleEdit(row.id)}>
+                            <EditIcon />
+                          </IconButton>
+                        </Tooltip>}
+                        {<Tooltip title="Delete">
+                          <IconButton aria-label="delete" onClick={() => handleDelete(row.id)}>
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>}
+                      </TableCell>
                     </TableRow>
                   );
                 })}

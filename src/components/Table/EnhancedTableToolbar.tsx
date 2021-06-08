@@ -4,7 +4,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
+import Grid from '@material-ui/core/Grid';
 import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@material-ui/icons/Add';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
 const useToolbarStyles = makeStyles((theme) => ({
@@ -43,22 +45,33 @@ const EnhancedTableToolbar = (props) => {
         </Typography>
       ) : (
         <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-          Nutrition
+          Users
         </Typography>
       )}
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
+        <IconButton aria-label="delete">
+          <DeleteIcon />
+        </IconButton>
+      </Tooltip>
       ) : (
-        <Tooltip title="Filter list">
-          <IconButton aria-label="filter list">
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
+        <Grid container direction="row" justify="flex-end">
+          <Grid item>
+            <Tooltip title="Add">
+              <IconButton aria-label="add">
+                <AddIcon />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+          <Grid item>
+            <Tooltip title="Filter list">
+              <IconButton aria-label="filter list">
+                <FilterListIcon />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </Grid>
       )}
     </Toolbar>
   );
