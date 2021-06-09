@@ -50,7 +50,7 @@ const headCells = [
   { id: 'action', numeric: true, disablePadding: false, label: 'Action' }
 ];
 
-const index = ({ rows }) => {
+const UserTable = ({ rows }) => {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
@@ -237,4 +237,4 @@ const index = ({ rows }) => {
   )
 }
 
-export default index;
+export default UserTable;

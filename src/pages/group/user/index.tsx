@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
-import UserTable from '../../../components/User/UserTable';
+import UserTable from '../../../components/Table/User';
 
 const User = () => {
   const [data, setData] = useState([]);
