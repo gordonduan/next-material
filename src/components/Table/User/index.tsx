@@ -16,6 +16,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import UserForm from '../User/UserForm/UserForm';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,6 +59,7 @@ const UserTable = ({ rows }) => {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [open, setOpen] = React.useState(false);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -116,6 +118,14 @@ const UserTable = ({ rows }) => {
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -198,7 +208,7 @@ const UserTable = ({ rows }) => {
                       <TableCell align="right">{new Date(row.createdDateTime).toLocaleString()}</TableCell>
                       <TableCell align="right">
                         {<Tooltip title="Edit">
-                          <IconButton aria-label="edit" onClick={() => handleEdit(row.id)}>
+                          <IconButton aria-label="edit" onClick={handleClickOpen}>
                             <EditIcon />
                           </IconButton>
                         </Tooltip>}
@@ -233,6 +243,12 @@ const UserTable = ({ rows }) => {
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
       />
+
+      <UserForm
+        open={open}
+        onHandleClose={handleClose}
+      />
+
     </div>
   )
 }
