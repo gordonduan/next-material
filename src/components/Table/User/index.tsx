@@ -17,6 +17,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import UserForm from '../User/UserForm/UserForm';
+import axios from 'axios'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,6 +61,7 @@ const UserTable = ({ rows }) => {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [open, setOpen] = React.useState(false);
+  const [user, setUser] = React.useState({});
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -109,8 +111,11 @@ const UserTable = ({ rows }) => {
     setDense(event.target.checked);
   };
 
-  const handleEdit = (id) => {
-    console.log("The Values that you wish to edit ", id);
+  const handleEdit = async (id) => {
+    let { data } = await axios.get(`/api/user/${id}`);
+    if(data.status !== "ok") return; //show some error
+    setUser({...data.data, ...{action: 'Edit'}});
+    setOpen(true);
   };
 
   const handleDelete = id => {
@@ -208,7 +213,7 @@ const UserTable = ({ rows }) => {
                       <TableCell align="right">{new Date(row.createdDateTime).toLocaleString()}</TableCell>
                       <TableCell align="right">
                         {<Tooltip title="Edit">
-                          <IconButton aria-label="edit" onClick={handleClickOpen}>
+                          <IconButton aria-label="edit" onClick={() => handleEdit(row.id)}>
                             <EditIcon />
                           </IconButton>
                         </Tooltip>}
@@ -247,6 +252,7 @@ const UserTable = ({ rows }) => {
       <UserForm
         open={open}
         onHandleClose={handleClose}
+        user={user}
       />
 
     </div>
