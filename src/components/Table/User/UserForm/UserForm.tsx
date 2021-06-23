@@ -30,6 +30,7 @@ const UserForm = ({ open, onHandleClose, user }) => {
             value={user.name}
             fullWidth
           />
+          <FormLabel component="legend">Gender</FormLabel>
           <RadioGroup row aria-label="gender" name="row-radio-buttons-group" value={user.gender}>
             <FormControlLabel value="female" control={<Radio />} label="Female" />
             <FormControlLabel value="male" control={<Radio />} label="Male" />
@@ -58,7 +59,7 @@ const UserForm = ({ open, onHandleClose, user }) => {
             Cancel
           </Button>
           <Button onClick={onHandleClose} color="primary">
-            Subscribe
+            Save
           </Button>
         </DialogActions>
       </Dialog>

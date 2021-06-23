@@ -111,6 +111,10 @@ const UserTable = ({ rows }) => {
     setDense(event.target.checked);
   };
 
+  const handleAdd = async () => {
+    setOpen(true);
+  };
+
   const handleEdit = async (id) => {
     let { data } = await axios.get(`/api/user/${id}`);
     if(data.status !== "ok") return; //show some error
@@ -163,7 +167,7 @@ const UserTable = ({ rows }) => {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length} onHandleAdd={handleAdd}/>
         <TableContainer>
           <Table
             className={classes.table}
@@ -191,7 +195,6 @@ const UserTable = ({ rows }) => {
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -201,6 +204,7 @@ const UserTable = ({ rows }) => {
                       <TableCell padding="checkbox">
                         <Checkbox
                           checked={isItemSelected}
+                          onClick={(event) => handleClick(event, row.name)}
                           inputProps={{ 'aria-labelledby': labelId }}
                         />
                       </TableCell>

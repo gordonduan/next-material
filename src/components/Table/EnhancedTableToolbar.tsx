@@ -31,7 +31,7 @@ highlight:
 
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
-  const { numSelected } = props;
+  const { numSelected, onHandleAdd} = props;
 
   return (
     <Toolbar
@@ -59,7 +59,7 @@ const EnhancedTableToolbar = (props) => {
         <Grid container direction="row" justify="flex-end">
           <Grid item>
             <Tooltip title="Add">
-              <IconButton aria-label="add">
+              <IconButton aria-label="add" onClick={onHandleAdd}>
                 <AddIcon />
               </IconButton>
             </Tooltip>
