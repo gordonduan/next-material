@@ -83,65 +83,64 @@ const handleSubmit = e => {
       <DialogContent>
         <Form >
           <Grid container>
-              <Grid item xs={6}>
-                  <Controls.Input
-                      name="fullName"
-                      label="Full Name"
-                      value={values.fullName}
-                      onChange={handleInputChange}
-                      error={errors.fullName}
-                  />
-                  <Controls.Input
-                      label="Email"
-                      name="email"
-                      value={values.email}
-                      onChange={handleInputChange}
-                      error={errors.email}
-                  />
-                  <Controls.Input
-                      label="Mobile"
-                      name="mobile"
-                      value={values.mobile}
-                      onChange={handleInputChange}
-                      error={errors.mobile}
-                  />
-                  <Controls.Input
-                      label="City"
-                      name="city"
-                      value={values.city}
-                      onChange={handleInputChange}
-                  />
-
-              </Grid>
-              <Grid item xs={6}>
-                  <Controls.RadioGroup
-                      name="gender"
-                      label="Gender"
-                      value={values.gender}
-                      onChange={handleInputChange}
-                      items={genderItems}
-                  />
-                  <Controls.Select
-                      name="departmentId"
-                      label="Department"
-                      value={values.departmentId}
-                      onChange={handleInputChange}
-                      options={departmentItems}
-                      error={errors.departmentId}
-                  />
-                  <Controls.DatePicker
-                      name="hireDate"
-                      label="Hire Date"
-                      value={values.hireDate}
-                      onChange={handleInputChange}
-                  />
-                  <Controls.Checkbox
-                      name="isPermanent"
-                      label="Permanent Employee"
-                      value={values.isPermanent}
-                      onChange={handleInputChange}
-                  />
-              </Grid>
+            <Grid item xs={6}>
+              <Controls.Input
+                name="fullName"
+                label="Full Name"
+                value={values.fullName}
+                onChange={handleInputChange}
+                error={errors.fullName}
+              />
+              <Controls.Input
+                label="Email"
+                name="email"
+                value={values.email}
+                onChange={handleInputChange}
+                error={errors.email}
+              />
+              <Controls.Input
+                label="Mobile"
+                name="mobile"
+                value={values.mobile}
+                onChange={handleInputChange}
+                error={errors.mobile}
+              />
+              <Controls.Input
+                label="City"
+                name="city"
+                value={values.city}
+                onChange={handleInputChange}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Controls.RadioGroup
+                name="gender"
+                label="Gender"
+                value={values.gender}
+                onChange={handleInputChange}
+                items={genderItems}
+              />
+              <Controls.Select
+                name="departmentId"
+                label="Department"
+                value={values.departmentId}
+                onChange={handleInputChange}
+                options={departmentItems}
+                error={errors.departmentId}
+              />
+              <Controls.DatePicker
+                name="hireDate"
+                label="Hire Date"
+                value={values.hireDate}
+                onChange={handleInputChange}
+              />
+              <Controls.Checkbox
+                name="isPermanent"
+                label="Permanent Employee"
+                value={values.isPermanent}
+                onChange={handleInputChange}
+              />
+            </Grid>
           </Grid>
         </Form>
       </DialogContent>
