@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { makeStyles } from "@material-ui/core";
 
 export interface ErrorMessage {
-    fullName: string,
+    name: string,
     email: string,
     mobile: string,
     city: string,

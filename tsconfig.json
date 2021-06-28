@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/pages/api/user/user.js"  ],
+, "src/pages/api/user/user.js", "src/components/Table/User/UserForm/UserForm.js"  ],
   "exclude": [
     "node_modules"
   ]

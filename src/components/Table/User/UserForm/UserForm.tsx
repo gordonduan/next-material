@@ -15,13 +15,12 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Controls from "../../../Controls/Controls";
 import { useForm, ErrorMessage, Form } from '../../../Controls/useForm';
 
-
-const UserForm = ({ open, onHandleClose, user }) => {
+const UserForm = ({ open, onHandleClose, onHandleSubmit, user }) => {
 
   const genderItems = [
     { id: 'male', title: 'Male' },
     { id: 'female', title: 'Female' },
-]
+  ]
 
   const departmentItems = [
     { id: '1', title: 'Development' },
@@ -32,7 +31,7 @@ const UserForm = ({ open, onHandleClose, user }) => {
 
   const initialFValues = {
       id: 0,
-      fullName: '',
+      name: '',
       email: '',
       mobile: '',
       city: '',
@@ -44,8 +43,8 @@ const UserForm = ({ open, onHandleClose, user }) => {
 
   const validate = (fieldValues = values) => {
     let temp = { ...errors } as ErrorMessage;
-    if ('fullName' in fieldValues)
-        temp.fullName = fieldValues.fullName ? "" : "This field is required."
+    if ('name' in fieldValues)
+        temp.name = fieldValues.name ? "" : "This field is required."
     if ('email' in fieldValues)
         temp.email = (/$^|.+@.+..+/).test(fieldValues.email) ? "" : "Email is not valid."
     if ('mobile' in fieldValues)
@@ -60,22 +59,22 @@ const UserForm = ({ open, onHandleClose, user }) => {
         return Object.values(temp).every(x => x == "")
 }
 
-const {
-    values,
-    setValues,
-    errors,
-    setErrors,
-    handleInputChange,
-    resetForm
-} = useForm(initialFValues, true, validate);
+  const {
+      values,
+      setValues,
+      errors,
+      setErrors,
+      handleInputChange,
+      resetForm
+  } = useForm(initialFValues, true, validate);
 
-const handleSubmit = e => {
+  const createUser = async (e) => {
     e.preventDefault()
     if (validate()){
-        // employeeService.insertEmployee(values)
-        resetForm()
+      onHandleSubmit(values);
+      resetForm()
     }
-}
+  }
 
   return (
     <Dialog open={open} onClose={onHandleClose} aria-labelledby="form-dialog-title">
@@ -85,11 +84,11 @@ const handleSubmit = e => {
           <Grid container>
             <Grid item xs={6}>
               <Controls.Input
-                name="fullName"
+                name="name"
                 label="Full Name"
-                value={values.fullName}
+                value={values.name}
                 onChange={handleInputChange}
-                error={errors.fullName}
+                error={errors.name}
               />
               <Controls.Input
                 label="Email"
@@ -148,7 +147,7 @@ const handleSubmit = e => {
         <Button onClick={onHandleClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={handleSubmit} color="primary">
+        <Button onClick={createUser} color="primary">
           Save
         </Button>
       </DialogActions>

@@ -45,10 +45,14 @@ const useStyles = makeStyles((theme) => ({
 
 const headCells = [
   { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
-  { id: 'gender', numeric: true, disablePadding: false, label: 'Gender' },
-  { id: 'age', numeric: true, disablePadding: false, label: 'Age' },
   { id: 'email', numeric: true, disablePadding: false, label: 'Email' },
-  { id: 'createdDateTime', numeric: true, disablePadding: false, label: 'Created' },
+  { id: 'mobile', numeric: true, disablePadding: false, label: 'Mobile' },
+  { id: 'city', numeric: true, disablePadding: false, label: 'City' },
+  { id: 'gender', numeric: true, disablePadding: false, label: 'Gender' },
+  { id: 'departmentId', numeric: true, disablePadding: false, label: 'Department' },
+  { id: 'hireDate', numeric: true, disablePadding: false, label: 'Hire Date' },
+  { id: 'isPermanent', numeric: true, disablePadding: false, label: 'Is Permanent' },
+  { id: 'createdAt', numeric: true, disablePadding: false, label: 'Created' },
   { id: 'action', numeric: true, disablePadding: false, label: 'Action' }
 ];
 
@@ -136,6 +140,15 @@ const UserTable = ({ rows }) => {
     setOpen(false);
   };
 
+  const handleSubmit = async (values) => {
+    if (values.id ) {
+      var { data } = await axios.put(`/api/user/${values.id}`,values);
+    } else {
+      var { data } = await axios.post(`/api/user`,values);
+      setOpen(false);
+    }
+}
+
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
       return -1;
@@ -211,10 +224,14 @@ const UserTable = ({ rows }) => {
                       <TableCell component="th" id={labelId} scope="row" padding="none">
                         {row.name}
                       </TableCell>
-                      <TableCell align="right">{row.gender}</TableCell>
-                      <TableCell align="right">{row.age}</TableCell>
                       <TableCell align="right">{row.email}</TableCell>
-                      <TableCell align="right">{new Date(row.createdDateTime).toLocaleString()}</TableCell>
+                      <TableCell align="right">{row.mobile}</TableCell>
+                      <TableCell align="right">{row.city}</TableCell>
+                      <TableCell align="right">{row.gender}</TableCell>
+                      <TableCell align="right">{row.departmentId}</TableCell>
+                      <TableCell align="right">{new Date(row.hireDate).toLocaleString()}</TableCell>
+                      <TableCell align="right">{row.isPermanent}</TableCell>
+                      <TableCell align="right">{new Date(row.createdAt).toLocaleString()}</TableCell>
                       <TableCell align="right">
                         {<Tooltip title="Edit">
                           <IconButton aria-label="edit" onClick={() => handleEdit(row.id)}>
@@ -255,6 +272,7 @@ const UserTable = ({ rows }) => {
 
       <UserForm
         open={open}
+        onHandleSubmit={handleSubmit}
         onHandleClose={handleClose}
         user={user}
       />
