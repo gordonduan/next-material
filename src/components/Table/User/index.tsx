@@ -17,7 +17,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import UserForm from '../User/UserForm/UserForm';
-import axios from 'axios'
+import axios from 'axios';
+import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,7 +53,7 @@ const headCells = [
   { id: 'departmentId', numeric: true, disablePadding: false, label: 'Department' },
   { id: 'hireDate', numeric: true, disablePadding: false, label: 'Hire Date' },
   { id: 'isPermanent', numeric: true, disablePadding: false, label: 'Is Permanent' },
-  { id: 'createdAt', numeric: true, disablePadding: false, label: 'Created' },
+  // { id: 'createdAt', numeric: true, disablePadding: false, label: 'Created' },
   { id: 'action', numeric: true, disablePadding: false, label: 'Action' }
 ];
 
@@ -147,7 +148,14 @@ const UserTable = ({ rows }) => {
       var { data } = await axios.post(`/api/user`,values);
       setOpen(false);
     }
-}
+  }
+
+  const departmentItems = [
+    { id: '1', title: 'Development' },
+    { id: '2', title: 'Marketing' },
+    { id: '3', title: 'Accounting' },
+    { id: '4', title: 'HR' },
+  ];
 
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -176,7 +184,10 @@ const UserTable = ({ rows }) => {
   }
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
+  console.log(rowsPerPage);
+  console.log(rows.length);
+  console.log(page);
+  console.log(emptyRows);
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -228,10 +239,10 @@ const UserTable = ({ rows }) => {
                       <TableCell align="right">{row.mobile}</TableCell>
                       <TableCell align="right">{row.city}</TableCell>
                       <TableCell align="right">{row.gender}</TableCell>
-                      <TableCell align="right">{row.departmentId}</TableCell>
-                      <TableCell align="right">{new Date(row.hireDate).toLocaleString()}</TableCell>
-                      <TableCell align="right">{row.isPermanent}</TableCell>
-                      <TableCell align="right">{new Date(row.createdAt).toLocaleString()}</TableCell>
+                      <TableCell align="right">{(departmentItems.find( ({ id }) => id == row.departmentId )).title}</TableCell>
+                      <TableCell align="right">{moment(row.hireDate).format('YYYY-MM-DD')}</TableCell>
+                      <TableCell align="right">{row.isPermanent?("Yes"):("No")}</TableCell>
+                      {/* <TableCell align="right">{moment(row.createAt).format('YYYY-MM-DD')}</TableCell> */}
                       <TableCell align="right">
                         {<Tooltip title="Edit">
                           <IconButton aria-label="edit" onClick={() => handleEdit(row.id)}>
@@ -249,7 +260,7 @@ const UserTable = ({ rows }) => {
                 })}
               {emptyRows > 0 && (
                 <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                  <TableCell colSpan={6} />
+                  <TableCell colSpan={headCells.length+1} />
                 </TableRow>
               )}
             </TableBody>
