@@ -19,6 +19,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import UserForm from '../User/UserForm/UserForm';
 import axios from 'axios';
 import moment from 'moment';
+import { NextUser } from '../../../repositories/user-repository';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,16 +46,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const headCells = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
-  { id: 'email', numeric: true, disablePadding: false, label: 'Email' },
-  { id: 'mobile', numeric: true, disablePadding: false, label: 'Mobile' },
-  { id: 'city', numeric: true, disablePadding: false, label: 'City' },
-  { id: 'gender', numeric: true, disablePadding: false, label: 'Gender' },
-  { id: 'departmentId', numeric: true, disablePadding: false, label: 'Department' },
-  { id: 'hireDate', numeric: true, disablePadding: false, label: 'Hire Date' },
-  { id: 'isPermanent', numeric: true, disablePadding: false, label: 'Is Permanent' },
-  // { id: 'createdAt', numeric: true, disablePadding: false, label: 'Created' },
-  { id: 'action', numeric: true, disablePadding: false, label: 'Action' }
+  { id: 'name', align: 'center', numeric: false, disablePadding: true, label: 'Name' },
+  { id: 'email', align: 'center', numeric: false, disablePadding: true, label: 'Email' },
+  { id: 'mobile', align: 'center', numeric: false, disablePadding: true, label: 'Mobile' },
+  { id: 'city', align: 'center', numeric: false, disablePadding: true, label: 'City' },
+  { id: 'gender', align: 'center', numeric: false, disablePadding: true, label: 'Gender' },
+  { id: 'departmentId', align: 'center', numeric: false, disablePadding: true, label: 'Department' },
+  { id: 'hireDate', align: 'center', numeric: false, disablePadding: true, label: 'Hire Date' },
+  { id: 'isPermanent', align: 'center', numeric: false, disablePadding: true, label: 'Is Permanent' },
+  // { id: 'createdAt', align: 'center', numeric: true, disablePadding: false, label: 'Created' },
+  { id: 'action', align: 'center', numeric: true, disablePadding: true, label: 'Action' }
 ];
 
 const UserTable = ({ rows }) => {
@@ -66,7 +67,7 @@ const UserTable = ({ rows }) => {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [open, setOpen] = React.useState(false);
-  const [user, setUser] = React.useState({});
+  const [user, setUser] = React.useState<Partial<NextUser>>({});
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -117,18 +118,40 @@ const UserTable = ({ rows }) => {
   };
 
   const handleAdd = async () => {
+    setUser({
+      id: 0,
+      name: '',
+      email: '',
+      mobile: '',
+      city: '',
+      gender: 'male',
+      departmentId: 0,
+      hireDate: new Date(),
+      isPermanent: false,
+    });
     setOpen(true);
   };
 
   const handleEdit = async (id) => {
     let { data } = await axios.get(`/api/user/${id}`);
     if(data.status !== "ok") return; //show some error
-    setUser({...data.data, ...{action: 'Edit'}});
+    setUser({
+      id: data.data.id,
+      name: data.data.name,
+      email: data.data.email,
+      mobile: data.data.mobile,
+      city: data.data.city,
+      gender: data.data.gender,
+      departmentId: data.data.departmentId,
+      hireDate: data.data.hireDate,
+      isPermanent: Boolean(data.data.isPermanent),
+    })
     setOpen(true);
   };
 
-  const handleDelete = id => {
-    console.log("The Values that you wish to delete ", id);
+  const handleDelete = async (id) => {
+    let { data } = await axios.delete(`/api/user/${id}`);
+    if(data.status !== "ok") return; //show some error
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
@@ -146,8 +169,8 @@ const UserTable = ({ rows }) => {
       var { data } = await axios.put(`/api/user/${values.id}`,values);
     } else {
       var { data } = await axios.post(`/api/user`,values);
-      setOpen(false);
     }
+    setOpen(false);
   }
 
   const departmentItems = [
@@ -184,10 +207,7 @@ const UserTable = ({ rows }) => {
   }
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-  console.log(rowsPerPage);
-  console.log(rows.length);
-  console.log(page);
-  console.log(emptyRows);
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -235,15 +255,15 @@ const UserTable = ({ rows }) => {
                       <TableCell component="th" id={labelId} scope="row" padding="none">
                         {row.name}
                       </TableCell>
-                      <TableCell align="right">{row.email}</TableCell>
-                      <TableCell align="right">{row.mobile}</TableCell>
-                      <TableCell align="right">{row.city}</TableCell>
-                      <TableCell align="right">{row.gender}</TableCell>
-                      <TableCell align="right">{(departmentItems.find( ({ id }) => id == row.departmentId )).title}</TableCell>
-                      <TableCell align="right">{moment(row.hireDate).format('YYYY-MM-DD')}</TableCell>
-                      <TableCell align="right">{row.isPermanent?("Yes"):("No")}</TableCell>
-                      {/* <TableCell align="right">{moment(row.createAt).format('YYYY-MM-DD')}</TableCell> */}
-                      <TableCell align="right">
+                      <TableCell align="justify">{row.email}</TableCell>
+                      <TableCell align="justify">{row.mobile}</TableCell>
+                      <TableCell align="justify">{row.city}</TableCell>
+                      <TableCell align="justify">{row.gender}</TableCell>
+                      <TableCell align="justify">{(departmentItems.find( ({ id }) => id == row.departmentId )).title}</TableCell>
+                      <TableCell align="justify">{moment(row.hireDate).format('YYYY-MM-DD')}</TableCell>
+                      <TableCell align="justify">{row.isPermanent?("Yes"):("No")}</TableCell>
+                      {/* <TableCell align="center">{moment(row.createAt).format('YYYY-MM-DD')}</TableCell> */}
+                      <TableCell align="justify">
                         {<Tooltip title="Edit">
                           <IconButton aria-label="edit" onClick={() => handleEdit(row.id)}>
                             <EditIcon />

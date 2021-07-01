@@ -23,6 +23,7 @@ const UserForm = ({ open, onHandleClose, onHandleSubmit, user }) => {
   ]
 
   const departmentItems = [
+    { id: '0', title: 'None' },
     { id: '1', title: 'Development' },
     { id: '2', title: 'Marketing' },
     { id: '3', title: 'Accounting' },
@@ -66,19 +67,18 @@ const UserForm = ({ open, onHandleClose, onHandleSubmit, user }) => {
       setErrors,
       handleInputChange,
       resetForm
-  } = useForm(initialFValues, true, validate);
+  } = useForm(initialFValues, user, true, validate);
 
   const createUser = async (e) => {
     e.preventDefault()
     if (validate()){
       onHandleSubmit(values);
-      resetForm()
     }
   }
 
   return (
     <Dialog open={open} onClose={onHandleClose} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">Edit {user.name}</DialogTitle>
+      <DialogTitle id="form-dialog-title">{user.id? 'Edit ' + user.name : 'Add a user'}</DialogTitle>
       <DialogContent>
         <Form >
           <Grid container>

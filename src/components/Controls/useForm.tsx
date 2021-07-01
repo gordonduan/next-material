@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from "@material-ui/core";
 
 export interface ErrorMessage {
@@ -12,10 +12,14 @@ export interface ErrorMessage {
     isPermanent: string
 }
 
-export function useForm(initialFValues, validateOnChange = false, validate) {
+export function useForm(initialFValues, data, validateOnChange = false, validate) {
     let initialErrorMessage = {} as ErrorMessage;
     const [values, setValues] = useState(initialFValues);
     const [errors, setErrors] = useState(initialErrorMessage);
+
+    useEffect(() => {
+        setValues(data);
+    },[data]);
 
     const handleInputChange = e => {
         const { name, value } = e.target
